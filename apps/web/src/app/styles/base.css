@@ -1,0 +1,10 @@
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}

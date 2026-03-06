@@ -1,0 +1,21 @@
+{
+  "name": "test-task-registration",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:up": "docker-compose up -d",
+    "setup": "pnpm install && pnpm db:up && pnpm --filter api db:generate && pnpm --filter api db:migrate",
+    "dev:api": "pnpm --filter api start",
+    "dev:web": "pnpm --filter web dev",
+    "dev": "pnpm run /^dev:.*/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.3",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

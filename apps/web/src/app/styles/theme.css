@@ -1,0 +1,30 @@
+/* @custom-variant dark (&:is(.dark *)); */
+
+@theme {
+  --max-width-content: calc(1600px + 16px + 16px);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-pressed: var(--brand-pressed);
+  --color-input: var(--input);
+}
+
+:root {
+  --background: #e7eafa;
+  --foreground: #1d2023;
+  --brand: #2662F3;
+  --brand-hover: #709afe;
+  --brand-pressed: #1450e0;
+  --input: #f2f3f7;
+}
+
+/* .dark {
+} */
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
