@@ -1,16 +1,15 @@
 import { useUsersControllerCreate } from '@/shared/api/generated/users/users';
+import { Button } from '@/shared/ui/button';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { Input } from '@/shared/ui/input';
 import type { RegistrationData } from '@packages/validation';
 import type { AxiosError } from 'axios';
 import { useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 export const StepTwo = () => {
+  const { control, handleSubmit } = useFormContext<RegistrationData>();
   const navigate = useNavigate();
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useFormContext<RegistrationData>();
 
   const { mutate, isPending } = useUsersControllerCreate({
     mutation: {
@@ -32,44 +31,55 @@ export const StepTwo = () => {
 
   return (
     <div className="space-y-4">
-      <div>
-        <input {...register('name')} placeholder="Имя" className="border p-2 w-full" disabled={isPending} />
-        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-      </div>
+      <FormField
+        control={control}
+        name="name"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Имя</FormLabel>
+            <FormControl>
+              <Input placeholder="Введи имя" {...field} disabled={isPending} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
-      <div>
-        <input
-          {...register('password')}
-          type="password"
-          placeholder="Пароль"
-          className="border p-2 w-full"
-          disabled={isPending}
-        />
-        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-      </div>
+      <FormField
+        control={control}
+        name="password"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Пароль</FormLabel>
+            <FormControl>
+              <Input type="password" placeholder="Введи пароль" {...field} disabled={isPending} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
-      <div className="flex gap-2">
-        <button
-          type="button"
-          onClick={() => {
-            void navigate(-1);
-          }}
-          disabled={isPending}
-          className="bg-gray-200 px-4 py-2 rounded"
-        >
-          Назад
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            void handleSubmit(onSubmit)();
-          }}
-          disabled={isPending}
-          className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-blue-300"
-        >
-          {isPending ? 'Загрузка...' : 'Войти'}
-        </button>
-      </div>
+      <Button
+        className="w-full"
+        size="lg"
+        variant="secondary"
+        onClick={() => {
+          void navigate(-1);
+        }}
+        disabled={isPending}
+      >
+        Вернуться
+      </Button>
+      <Button
+        className="w-full"
+        size="lg"
+        onClick={() => {
+          void handleSubmit(onSubmit)();
+        }}
+        disabled={isPending}
+      >
+        {isPending ? 'Загрузка...' : 'Войти'}
+      </Button>
     </div>
   );
 };
