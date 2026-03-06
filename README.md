@@ -17,7 +17,7 @@
 1. **Клонируйте репозиторий:**
 
 ```bash
-git clone <url>
+git clone https://github.com/Imbirel/test-task-registration.git
 cd test-task-registration
 ```
 
@@ -39,15 +39,15 @@ pnpm run setup
 pnpm run dev
 ```
 
-Frontend: http://localhost:5173
-Backend API: http://localhost:3000/api
-Swagger (API Docs): http://localhost:3000/api/docs
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3000/api
+- Swagger (API Docs): http://localhost:3000/api/docs
 
 ## API Эндпоинты
 
-POST /api/users/register — Регистрация пользователя.
-GET /api/users — Список зарегистрированных пользователей.
-DELETE /api/users/:id — Удаление пользователя.
+- POST /api/users/register — Регистрация пользователя.
+- GET /api/users — Список зарегистрированных пользователей.
+- DELETE /api/users/:id — Удаление пользователя.
 
 
 
