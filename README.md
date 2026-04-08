@@ -2,15 +2,18 @@
 
 Тестовое задание: регистрация в два шага (React + NestJS + Prisma + PostgreSQL).
 
+
 ## Стек технологий
 - **Frontend:** React, TypeScript, Tailwind CSS, Vite.
 - **Backend:** NestJS, Prisma ORM, Swagger, Zod.
 - **Инфраструктура:** Docker (PostgreSQL), Monorepo (pnpm workspaces).
 
+
 ## Требования
 - Node.js (v18+)
 - pnpm (v8+)
 - Docker & Docker Compose
+
 
 ## Быстрый запуск
 
@@ -23,7 +26,11 @@ cd test-task-registration
 
 2. **Настройте переменные окружения:**
 
-В папке packages/database переименуйте файл `.env.example` в `.env`
+Создайте файл .env на основе .env.example:
+
+```bash
+cp .env.example .env
+```
 
 3. **Запустите автоматическую настройку:**
 
@@ -39,20 +46,19 @@ pnpm run setup
 pnpm run dev
 ```
 
+
+## Доступ к сервисам
+
 - Frontend: http://localhost:5173
-- Backend API: http://localhost:3000/api
-- Swagger (API Docs): http://localhost:3000/api/docs
-
-## API Эндпоинты
-
-- POST /api/users/register — Регистрация пользователя.
-- GET /api/users — Список зарегистрированных пользователей.
-- DELETE /api/users/:id — Удаление пользователя.
+- Backend API: http://localhost:3000/api/v1
+- Swagger Docs: http://localhost:3000/api/docs
 
 
+## API Эндпоинты (v1)
 
-
-
+- POST /api/v1/users/register — Регистрация пользователя.
+- GET /api/v1/users — Список зарегистрированных пользователей.
+- DELETE /api/v1/users/:id — Удаление пользователя по UUID.
 
 
 
