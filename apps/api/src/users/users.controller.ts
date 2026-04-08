@@ -1,15 +1,11 @@
 import { UsersService } from './users.service';
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RegistrationDto } from './dto/registration.dto';
+import {
+  ApiListResponse,
+  ApiPaginatedResponse,
+} from '#common/decorators/api-response.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -18,11 +14,7 @@ export class UsersController {
 
   @Post('register')
   @ApiOperation({ summary: 'Регистрация нового пользователя' })
-  @ApiResponse({
-    status: 201,
-    description: 'Пользователь успешно создан',
-    type: RegistrationDto,
-  })
+  @ApiPaginatedResponse(RegistrationDto)
   @ApiResponse({ status: 400, description: 'Ошибка валидации полей' })
   @ApiResponse({ status: 409, description: 'Email уже занят' })
   create(@Body() data: RegistrationDto) {
@@ -31,11 +23,7 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ summary: 'Получить список всех пользователей' })
-  @ApiResponse({
-    status: 200,
-    description: 'Список пользователей получен',
-    type: [RegistrationDto],
-  })
+  @ApiListResponse(RegistrationDto)
   findAll() {
     return this.usersService.findAll();
   }
@@ -44,7 +32,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Удалить пользователя по ID' })
   @ApiResponse({ status: 200, description: 'Пользователь удален' })
   @ApiResponse({ status: 404, description: 'Пользователь не найден' })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
 }
