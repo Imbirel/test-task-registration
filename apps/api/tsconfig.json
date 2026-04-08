@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "#*": ["./dist/*", "./src/*"]
     },
     "module": "nodenext",
     "moduleResolution": "nodenext",
