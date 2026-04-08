@@ -5,19 +5,8 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import * as dotenv from 'dotenv';
-import * as path from 'path';
-import * as fs from 'fs';
-
-const envPaths = [
-  path.resolve(process.cwd(), '.env'),
-  path.resolve(process.cwd(), '../../.env'),
-];
-const activePath = envPaths.find((p) => fs.existsSync(p));
-
-if (activePath) {
-  dotenv.config({ path: activePath });
-}
+import { ConfigService } from '@nestjs/config';
+import { Env } from '#common/configs/env.validation';
 
 @Injectable()
 export class PrismaService
@@ -26,20 +15,12 @@ export class PrismaService
 {
   private readonly logger = new Logger(PrismaService.name);
 
-  constructor() {
-    const url = process.env.DATABASE_URL;
-
-    if (!url) {
-      throw new Error(
-        `DATABASE_URL is not defined! Checked paths: ${envPaths.join(', ')}`,
-      );
-    }
+  constructor(configService: ConfigService<Env, true>) {
+    const url = configService.get('DATABASE_URL', { infer: true });
 
     super({
       datasources: {
-        db: {
-          url: url,
-        },
+        db: { url },
       },
     });
 
