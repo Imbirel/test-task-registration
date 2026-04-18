@@ -2,10 +2,21 @@
   "name": "@packages/validation",
   "version": "1.0.0",
   "private": true,
-  "main": "./index.ts",
-  "types": "./index.ts",
   "type": "module",
-  "dependencies": {
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "peerDependencies": {
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@packages/typescript-config": "workspace:*"
   }
 }
