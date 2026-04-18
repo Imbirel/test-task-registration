@@ -1,0 +1,10 @@
+{
+  "extends": "../typescript-config/base.json",
+  "compilerOptions": {
+    "verbatimModuleSyntax": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
