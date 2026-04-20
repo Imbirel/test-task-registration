@@ -7,7 +7,10 @@ import { Response } from 'express';
 export class PrismaClientExceptionFilter extends BaseExceptionFilter {
   private readonly logger = new Logger(PrismaClientExceptionFilter.name);
 
-  catch(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
+  override catch(
+    exception: Prisma.PrismaClientKnownRequestError,
+    host: ArgumentsHost,
+  ) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const message = exception.message.replace(/\n/g, '');
@@ -31,8 +34,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
       }
       default:
         this.logger.error(`Prisma Error: ${exception.code} - ${message}`);
-        super.catch(exception, host);
-        break;
+        throw exception;
     }
   }
 }

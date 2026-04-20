@@ -1,6 +1,5 @@
-import { NestFactory, HttpAdapterHost } from '@nestjs/core';
-import { VersioningType } from '@nestjs/common';
-import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { VersioningType, Logger } from '@nestjs/common';
 import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ZodValidationPipe, patchNestjsSwagger } from '@anatine/zod-nestjs';
@@ -33,8 +32,6 @@ async function bootstrap() {
     defaultVersion: '1',
   });
 
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   app.useGlobalPipes(new ZodValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
 
