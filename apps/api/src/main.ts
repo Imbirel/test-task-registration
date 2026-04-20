@@ -9,16 +9,16 @@ import { ConfigService } from '@nestjs/config';
 import { Env } from '#common/configs/env.validation';
 import { TransformInterceptor } from '#common/interceptors/transform.interceptor';
 import { AppModule } from '#app.module';
+import { EnvService } from '#common/configs/env.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
 
-  const configService = app.get<ConfigService<Env, true>>(ConfigService);
-  const port = configService.get('PORT', { infer: true });
-  const origins = configService.get('ALLOWED_ORIGINS', { infer: true });
-  const logger = new Logger('Bootstrap');
+  const env = app.get(EnvService);
+  const port = env.port;
+  const origins = env.allowedOrigins;
 
   app.use(helmet());
   app.enableCors({

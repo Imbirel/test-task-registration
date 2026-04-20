@@ -4,16 +4,10 @@ import { envSchema } from '#common/configs/env.validation';
 import { UsersModule } from '#users/users.module';
 import { PrismaModule } from '#prisma/prisma.module';
 import { LoggerMiddleware } from '#common/middleware/logger.middleware';
+import { EnvModule } from '#common/configs/env.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      validate: (config) => envSchema.parse(config),
-    }),
-    PrismaModule,
-    UsersModule,
-  ],
+  imports: [EnvModule, PrismaModule, UsersModule],
   controllers: [],
   providers: [],
 })
