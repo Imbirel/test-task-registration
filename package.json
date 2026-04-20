@@ -4,17 +4,28 @@
   "private": true,
   "description": "",
   "main": "index.js",
+  "keywords": [],
+  "author": "Imbirel",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=10"
+  },
   "scripts": {
     "db:up": "docker-compose up -d",
     "setup": "pnpm install && pnpm db:up && pnpm --filter api db:generate && pnpm --filter api db:migrate",
-    "dev:api": "pnpm --filter api start",
+    "gen": "pnpm  --filter web gen",
+    "dev:api": "pnpm --filter api start:dev",
     "dev:web": "pnpm --filter web dev",
-    "dev": "pnpm run /^dev:.*/"
+    "dev": "pnpm run /^dev:.*/",
+    "typecheck": "pnpm -r typecheck"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.18.3",
+  "pnpm": {
+    "overrides": {
+      "zod": "^4.3.6"
+    }
+  },
   "devDependencies": {
     "typescript": "^5.9.3"
   }
