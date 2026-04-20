@@ -56,12 +56,9 @@ pnpm run dev
 
 ## API Эндпоинты (v1)
 
-- POST /api/v1/users/register — Регистрация пользователя.
+- POST /api/v1/users — Регистрация пользователя.
 - GET /api/v1/users — Список зарегистрированных пользователей.
-- DELETE /api/v1/users/:id — Удаление пользователя по UUID.
-
-
-
+- DELETE /api/v1/users/:id — Удаление пользователя по ID.
 
 
 
