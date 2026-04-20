@@ -1,0 +1,23 @@
+# Зависимости и сборка (Docker должен ставить их сам)
+node_modules
+/apps/*/node_modules
+/packages/*/node_modules
+dist
+/apps/*/dist
+/packages/*/dist
+
+# Кэш и логи
+.pnpm-store
+npm-debug.log*
+*.tsbuildinfo
+.eslintcache
+.vite
+
+# Гит и настройки редактора
+.git
+.vscode
+.idea
+
+# Секреты (лучше передавать через environment в compose)
+.env
+.env.*
