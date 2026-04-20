@@ -8,6 +8,8 @@ import { AppModule } from '#app.module';
 import { EnvService } from '#common/configs/env.service';
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
+
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
@@ -51,8 +53,17 @@ async function bootstrap() {
   await app.listen(port);
   logger.log(`Application is running on: http://localhost:${port}/api/v1`);
   logger.log(`Swagger UI available at: http://localhost:${port}/api/docs`);
+
+  process.on('unhandledRejection', (reason, promise) => {
+    logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  });
+
+  process.on('uncaughtException', (err) => {
+    logger.error('Uncaught Exception thrown:', err);
+    setTimeout(() => process.exit(1), 1000);
+  });
 }
 bootstrap().catch((err) => {
-  console.error(err);
+  console.error('Error during bootstrap:', err);
   process.exit(1);
 });
