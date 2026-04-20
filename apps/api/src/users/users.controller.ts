@@ -1,9 +1,24 @@
-import { UsersService } from './users.service';
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { RegistrationDto } from './dto/registration.dto';
+import { UsersService } from './users.service.js';
 import {
-  ApiListResponse,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  CreateUserDto,
+  PaginationQueryDto,
+  UserResponseDto,
+} from './dto/users.dto.js';
+import {
+  ApiBaseResponse,
   ApiPaginatedResponse,
 } from '#common/decorators/api-response.decorator';
 
@@ -12,27 +27,22 @@ import {
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('register')
+  @Post()
   @ApiOperation({ summary: 'Регистрация нового пользователя' })
-  @ApiPaginatedResponse(RegistrationDto)
-  @ApiResponse({ status: 400, description: 'Ошибка валидации полей' })
-  @ApiResponse({ status: 409, description: 'Email уже занят' })
-  create(@Body() data: RegistrationDto) {
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() data: CreateUserDto): Promise<UserResponseDto> {
     return this.usersService.create(data);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Получить список всех пользователей' })
-  @ApiListResponse(RegistrationDto)
-  findAll() {
-    return this.usersService.findAll();
+  async findAllPaginated(@Query() query: PaginationQueryDto) {
+    return this.usersService.findAllPaginated(query);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Удалить пользователя по ID' })
-  @ApiResponse({ status: 200, description: 'Пользователь удален' })
-  @ApiResponse({ status: 404, description: 'Пользователь не найден' })
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    await this.usersService.remove(id);
   }
 }
