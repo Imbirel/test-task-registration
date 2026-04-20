@@ -2,10 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { VersioningType, Logger } from '@nestjs/common';
 import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ZodValidationPipe, patchNestjsSwagger } from '@anatine/zod-nestjs';
-import { PrismaClientExceptionFilter } from '#common/filters/prisma-client-exception.filter';
-import { ConfigService } from '@nestjs/config';
-import { Env } from '#common/configs/env.validation';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { TransformInterceptor } from '#common/interceptors/transform.interceptor';
 import { AppModule } from '#app.module';
 import { EnvService } from '#common/configs/env.service';
@@ -35,19 +32,25 @@ async function bootstrap() {
   app.useGlobalPipes(new ZodValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  patchNestjsSwagger();
-  const config = new DocumentBuilder()
+  const swaggerConfig = new DocumentBuilder()
     .setTitle('Registration API')
-    .setDescription('API для регистрации пользователей')
+    .setDescription('The API documentation for the system')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('users')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api/docs', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+      filter: true,
+    },
+  });
 
   app.enableShutdownHooks();
   await app.listen(port);
-  logger.log(`Application is running on: http://localhost:${port}/api`);
+  logger.log(`Application is running on: http://localhost:${port}/api/v1`);
+  logger.log(`Swagger UI available at: http://localhost:${port}/api/docs`);
 }
 bootstrap().catch((err) => {
   console.error(err);
